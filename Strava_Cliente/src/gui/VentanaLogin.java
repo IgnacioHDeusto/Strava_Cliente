@@ -76,10 +76,10 @@ public class VentanaLogin extends JFrame{
 	
 	
 	public static void main(String[] args) {
-		VentanaLogin v = new VentanaLogin();
-        v.setSize(400, 300);
-        v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        v.setVisible(true);
+	VentanaLogin v = new VentanaLogin();
+    v.setSize(400, 300);
+    v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    v.setVisible(true);
 
 	}
 
