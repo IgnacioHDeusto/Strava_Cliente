@@ -1,66 +1,64 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+import javax.swing.SwingConstants;
 
 public class VentanaPrincipal extends JFrame{
 	protected JLabel perfil;
 	protected JButton reto;
 	protected JButton entrenamiento;
+	protected JButton inicio;
 	
 	public VentanaPrincipal() {
 		Container cp = this.getContentPane();
 		JPanel north = new JPanel();
-		JPanel center = new JPanel();
+		JPanel south = new JPanel();
 		cp.add(north, BorderLayout.NORTH);
-		cp.add(center, BorderLayout.CENTER);
+		cp.add(south, BorderLayout.SOUTH);
 		
-		perfil = new JLabel("Bienvenido");
-		reto = new JButton("RETO");
-		entrenamiento = new JButton("ENTRENAMIENTO");
+		perfil = new JLabel("Inicio");
+		north.setBackground(new Color(255,128,0));
+		inicio = new JButton("");
+		inicio.setIcon(new ImageIcon("resources/inicioS.png"));
 		
-		center.setLayout(new GridLayout(1,2));
+		reto = new JButton("");
+		reto.setIcon(new ImageIcon("resources/reto.png"));
+		
+		entrenamiento = new JButton("");
+		entrenamiento.setIcon(new ImageIcon("resources/Entrenamiento.png"));
+		
+		cp.setBackground(new Color(255,255,255));
+		
+		inicio.setBackground(cp.getBackground());
+		reto.setBackground(cp.getBackground());
+		entrenamiento.setBackground(cp.getBackground());
+		
+		inicio.setBorder(null);
+		reto.setBorder(null);
+		entrenamiento.setBorder(null);
+		
+		south.setLayout(new GridLayout(1,3));
 		north.add(perfil);
-		center.add(reto);
-		center.add(entrenamiento);
+		south.add(inicio);
+		south.add(reto);
+		south.add(entrenamiento);
 		
 		
-		entrenamiento.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+		entrenamiento.addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -70,33 +68,9 @@ public class VentanaPrincipal extends JFrame{
 		        ventanaEntrenamiento.setVisible(true);
 				
 			}
-		});;
+		});
 		
-		reto.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+		reto.addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
