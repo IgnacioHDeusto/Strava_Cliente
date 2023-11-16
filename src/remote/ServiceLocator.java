@@ -2,7 +2,7 @@ package remote;
 
 import java.rmi.Naming;
 
-import src.remote.IRemoteFacade;
+
 
 
 public class ServiceLocator {

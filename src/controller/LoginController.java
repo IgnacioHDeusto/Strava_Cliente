@@ -18,7 +18,7 @@ public class LoginController {
 		
 		public boolean login(String email, String password) {
 			try {
-				this.token = this.serviceLocator.getService().login(email, password);			
+				this.token = this.serviceLocator.getService().logIn(email, password);			
 				return true;
 			} catch (RemoteException e) {
 				System.out.println("# Error during login: " + e);
@@ -29,7 +29,7 @@ public class LoginController {
 		
 		public void logout() {
 			try {
-				this.serviceLocator.getService().logout(this.token);
+				this.serviceLocator.getService().logOut(this.token);
 				this.token = -1;
 			} catch (RemoteException e) {
 				System.out.println("# Error during logout: " + e);
