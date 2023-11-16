@@ -18,6 +18,6 @@ public class main {
 	
 	EntrenamientoController entrenamientoController = new EntrenamientoController(servicelocator);
 	LoginController loginController = new LoginController(servicelocator);
-	RetoController retoController = new RetoController();
+	RetoController retoController = new RetoController(servicelocator);
 	}
 }
