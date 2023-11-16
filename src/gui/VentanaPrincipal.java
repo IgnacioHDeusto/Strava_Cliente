@@ -28,6 +28,7 @@ public class VentanaPrincipal extends JFrame{
 	
 	public VentanaPrincipal(LoginController loginController) {
 		setSize(400,300);
+		setLocationRelativeTo(null);
 		Container cp = this.getContentPane();
 		JPanel north = new JPanel();
 		JPanel south = new JPanel();

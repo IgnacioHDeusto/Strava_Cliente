@@ -43,6 +43,7 @@ public class VentanaReto extends JFrame{
 	
 	public VentanaReto(RetoController retoController) {
 		setSize(400,300);
+		setLocationRelativeTo(null);
 		
 		initRetos();
 		

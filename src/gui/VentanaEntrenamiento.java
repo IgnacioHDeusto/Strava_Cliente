@@ -2,7 +2,9 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,16 +12,19 @@ import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -39,31 +44,35 @@ public class VentanaEntrenamiento extends JFrame{
 
 	
 	public VentanaEntrenamiento (EntrenamientoController entrenamientoController) {
-		setSize(400,300);
-		
-		 initTables();
-		 
-		 crearEntrenamiento = new JButton("CREAR ENTRENAMIENTO");
+		setTitle("Gestion de Entrenamientos");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-		    // Agregar 5 entrenamientos de prueba
-		    agregarEntrenamientoPrueba("Entrenamiento 1", "5 km", "2023-01-01", "2023-01-05", "1 hora");
-		    agregarEntrenamientoPrueba("Entrenamiento 2", "10 km", "2023-02-01", "2023-02-10", "1.5 horas");
-		    agregarEntrenamientoPrueba("Entrenamiento 3", "8 km", "2023-03-01", "2023-03-07", "1 hora");
-		    agregarEntrenamientoPrueba("Entrenamiento 4", "15 km", "2023-04-01", "2023-04-15", "2 horas");
-		    agregarEntrenamientoPrueba("Entrenamiento 5", "12 km", "2023-05-01", "2023-05-10", "1.5 horas");
-		
-		
-		this.scrollPaneEntrenamientos = new JScrollPane(this.tablaEntrenamientos);
-		this.scrollPaneEntrenamientos.setBorder(new TitledBorder("Entrenamientos"));	
-		
-		this.add(this.scrollPaneEntrenamientos);
-		
-		this.getContentPane().add(crearEntrenamiento);
-		this.setLayout(new BorderLayout());
-        this.add(this.scrollPaneEntrenamientos, BorderLayout.CENTER);
-        this.add(crearEntrenamiento, BorderLayout.SOUTH);
-        // Establecer tamaño del botón
-        crearEntrenamiento.setPreferredSize(new Dimension(100, 100));
+        initTables();
+        
+      
+
+
+        crearEntrenamiento = new JButton("CREAR ENTRENAMIENTO");
+
+        agregarEntrenamientoPrueba("Entrenamiento 1", "5 km", "2023-01-01", "2023-01-05", "1 hora");
+        agregarEntrenamientoPrueba("Entrenamiento 2", "10 km", "2023-02-01", "2023-02-10", "1.5 horas");
+        agregarEntrenamientoPrueba("Entrenamiento 3", "8 km", "2023-03-01", "2023-03-07", "1 hora");
+        agregarEntrenamientoPrueba("Entrenamiento 4", "15 km", "2023-04-01", "2023-04-15", "2 horas");
+        agregarEntrenamientoPrueba("Entrenamiento 5", "12 km", "2023-05-01", "2023-05-10", "1.5 horas");
+
+        scrollPaneEntrenamientos = new JScrollPane(tablaEntrenamientos);
+        scrollPaneEntrenamientos.setBorder(new TitledBorder("Entrenamientos"));
+
+        JPanel panelBoton = new JPanel();
+        panelBoton.add(crearEntrenamiento);
+
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(scrollPaneEntrenamientos, BorderLayout.CENTER);
+        getContentPane().add(panelBoton, BorderLayout.SOUTH);
+
+        crearEntrenamiento.setPreferredSize(new Dimension(300, 40));
 
 		crearEntrenamiento.addMouseListener(new MouseListener() {
 			
@@ -120,22 +129,57 @@ public class VentanaEntrenamiento extends JFrame{
 						JOptionPane.PLAIN_MESSAGE);
 				
 				if (result == JOptionPane.OK_OPTION) {
+					
 					System.out.println(titulo.getText());
-							
 					}
 					
 				}
 			
 		});
+		
+		//Cambia el color de fondo de la ventana
+        getContentPane().setBackground(Color.white);
+
+        //Agrega una imagen o logotipo a la cabecera de la ventana
+        JLabel logo = new JLabel(new ImageIcon("logo.png"));
+        logo.setBounds(10, 10, 100, 100);
+        getContentPane().add(logo);
+
+        //Personaliza la apariencia de la tabla
+        tablaEntrenamientos.setBackground(Color.white);
+        tablaEntrenamientos.setForeground(Color.black);
+        tablaEntrenamientos.setFont(new Font("Arial", Font.PLAIN, 14));
+        tablaEntrenamientos.setRowHeight(30);
+        tablaEntrenamientos.getTableHeader().setBackground(new Color(255,128,0));
+        tablaEntrenamientos.getTableHeader().setForeground(Color.black);
+        tablaEntrenamientos.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+        tablaEntrenamientos.setDefaultRenderer(Object.class, new TableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+				JLabel label = new JLabel(value.toString());
+				label.setFont(new Font("Arial", Font.PLAIN, 14));
+				label.setHorizontalAlignment(SwingConstants.CENTER);
+				return label;
+			}
+		});
+
+ 
+        crearEntrenamiento.setBackground(new Color(255,128,0));
+        crearEntrenamiento.setForeground(Color.white);
+        crearEntrenamiento.setFont(new Font("Arial", Font.BOLD, 16));
+        crearEntrenamiento.setPreferredSize(new Dimension(300, 40));
+
+
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(scrollPaneEntrenamientos, BorderLayout.CENTER);
+        getContentPane().add(crearEntrenamiento, BorderLayout.SOUTH);
 
 	}
 	
 	private void initTables() {
-		//Cabecera del modelo de datos
 		Vector<String> cabeceraEntrenamiento = new Vector<String>(Arrays.asList( "TITULO", "DITANCIA","FECHA INICIO","FECHA FIN", "DURACION"));
 
 		this.modeloDatosEntrenamientos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraEntrenamiento);
-		//Se crea la tabla de personajes con el modelo de datos
 		this.tablaEntrenamientos = new JTable(this.modeloDatosEntrenamientos);
 	
 }
