@@ -2,11 +2,12 @@ package remote;
 
 import java.rmi.Naming;
 
-import 
+import src.remote.IRemoteFacade;
+
 
 public class ServiceLocator {
 	
-	//Remote Facade reference
+//	Remote Facade reference
 		private IRemoteFacade service;
 
 		@SuppressWarnings({ "removal", "deprecation" })
@@ -28,5 +29,6 @@ public class ServiceLocator {
 		public IRemoteFacade getService() {
 			return this.service;
 		}
+	
 	
 }

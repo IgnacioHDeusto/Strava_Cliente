@@ -1,8 +1,10 @@
 package controller;
 
 import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.List;
 
+import data.domain.Deporte;
 import remote.ServiceLocator;
 
 public class EntrenamientoController {
@@ -13,50 +15,15 @@ public class EntrenamientoController {
 		public EntrenamientoController(ServiceLocator serviceLocator) {
 			this.serviceLocator = serviceLocator; 
 		}
+		
+		public void crearEntrenamiento(String titulo, DeporteDTO deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) {
+			try {
+				return this.serviceLocator.getService().crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion);
+			} catch (Exception e) {
+				 System.out.println("\t#Error: newEntrenamiento( " + titulo + ", " + deporte + ", "  + distancia + ", "  + fecha_ini + ", "  + fecha_fin + ", "  + duracion + ") ha fallado: " + e);
+			}
+		}
 
-//		public List<CategoryDTO> getCategories() {
-//			try {
-//				return this.serviceLocator.getService().getCategories();
-//			} catch (RemoteException e) {
-//				System.out.println("# Error getting all categories: " + e);
-//				return null;
-//			}
-//		}
-//
-//		public List<ArticleDTO> getArticles(String category) {
-//			try {
-//				return this.serviceLocator.getService().getArticles(category);
-//			} catch (RemoteException e) {
-//				System.out.println("# Error getting articles of a category: " + e);
-//				return null;
-//			}
-//		}
-//
-//		public boolean makeBid(long token, int article, float bid) {
-//			try {
-//				return this.serviceLocator.getService().makeBid(token, article, bid);
-//			} catch (RemoteException e) {
-//				System.out.println("# Error making a bid: " + e);
-//				return false;
-//			}
-//		}
-//		
-//		public float getUSDRate() {
-//			try {
-//				return this.serviceLocator.getService().getUSDRate();
-//			} catch (RemoteException e) {
-//				System.out.println("# Error getting USD rate: " + e);
-//				return -1;
-//			}
-//		}
-//		
-//		public float getGBPRate() {
-//			try {
-//				return this.serviceLocator.getService().getGBPRate();
-//			} catch (RemoteException e) {
-//				System.err.println("# Error getting GBP rate: " + e);
-//				return -1;
-//			}
-//		}
+
 	
 }
