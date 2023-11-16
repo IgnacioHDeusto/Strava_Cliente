@@ -16,7 +16,7 @@ public class EntrenamientoController {
 			this.serviceLocator = serviceLocator; 
 		}
 		
-		public void crearEntrenamiento(String titulo, DeporteDTO deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) {
+public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) {
 			try {
 				return this.serviceLocator.getService().crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion);
 			} catch (Exception e) {
