@@ -63,13 +63,13 @@ public class RetoController {
 		}
 	}
 	
-//	public void crearReto(String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes, long token) throws RemoteException {
-//		try {
-//			this.serviceLocator.getService().crearReto(nombre, objetivo, tipo, fecha_ini, fecha_fin, deportes, token);
-//		} catch (Exception e) {
-//			System.out.println("\t#Error: newReto( " + nombre + ", " + objetivo + ", "  + tipo + ", "  + fecha_ini + ", "  + fecha_fin + ", "  + deportes + ", " + token  + ") ha fallado: " + e);
-//		}
-//
-//	}
+	public void crearReto(String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<String> deportes, long token) throws RemoteException {
+		try {
+			this.serviceLocator.getService().crearReto(nombre, objetivo, tipo, fecha_ini, fecha_fin, deportes, token);
+		} catch (Exception e) {
+			System.out.println("\t#Error: crearReto( " + nombre + ", " + objetivo + ", "  + tipo + ", "  + fecha_ini + ", "  + fecha_fin + ", "  + deportes + ", " + token  + ") ha fallado: " + e);
+		}
+
+	}
 
 }

@@ -17,13 +17,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import cliente.main;
+import controller.LoginController;
+
 public class VentanaPrincipal extends JFrame{
 	protected JLabel perfil;
 	protected JButton reto;
 	protected JButton entrenamiento;
 	protected JButton inicio;
 	
-	public VentanaPrincipal() {
+	public VentanaPrincipal(LoginController loginController) {
+		setSize(400,300);
 		Container cp = this.getContentPane();
 		JPanel north = new JPanel();
 		JPanel south = new JPanel();
@@ -62,10 +66,9 @@ public class VentanaPrincipal extends JFrame{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				main.ve.setVisible(true);	       
 
-				VentanaEntrenamiento ventanaEntrenamiento = new VentanaEntrenamiento();
-		        ventanaEntrenamiento.setSize(700, 300);
-		        ventanaEntrenamiento.setVisible(true);
 				
 			}
 		});
@@ -74,20 +77,12 @@ public class VentanaPrincipal extends JFrame{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaReto ventanareto = new VentanaReto();
-				ventanareto.setSize(400, 300);
-				ventanareto.setVisible(true);				
+				main.vret.setVisible(true);
+				
 			}
 		});
 		
 	}
 
-	public static void main(String[] args) {
-		VentanaPrincipal v = new VentanaPrincipal();
-        v.setSize(400, 300);
-        v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        v.setVisible(true);
-
-	}
 
 }

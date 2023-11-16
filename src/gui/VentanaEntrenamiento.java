@@ -26,6 +26,8 @@ import javax.swing.table.TableCellRenderer;
 
 import com.toedter.calendar.JDateChooser;
 
+import controller.EntrenamientoController;
+
 
 
 public class VentanaEntrenamiento extends JFrame{
@@ -36,7 +38,8 @@ public class VentanaEntrenamiento extends JFrame{
 	private JButton crearEntrenamiento ;
 
 	
-	public VentanaEntrenamiento () {
+	public VentanaEntrenamiento (EntrenamientoController entrenamientoController) {
+		setSize(400,300);
 		
 		 initTables();
 		 

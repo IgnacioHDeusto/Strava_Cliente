@@ -26,6 +26,8 @@ import javax.swing.table.TableCellRenderer;
 
 import com.toedter.calendar.JDateChooser;
 
+import controller.RetoController;
+
 
 
 
@@ -39,7 +41,8 @@ public class VentanaReto extends JFrame{
 	private JButton crearReto ;
 	private int filaRaton = -1;
 	
-	public VentanaReto() {
+	public VentanaReto(RetoController retoController) {
+		setSize(400,300);
 		
 		initRetos();
 		
