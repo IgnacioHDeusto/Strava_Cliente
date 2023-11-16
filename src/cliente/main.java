@@ -24,15 +24,15 @@ import remote.ServiceLocator;
 public class main {
 public static ServiceLocator serviceLocator = new ServiceLocator();
 	
-	public static LoginController loginController = new LoginController(serviceLocator);
-	public static RetoController retoController = new RetoController(serviceLocator);
-	public static EntrenamientoController entrenamientoController = new EntrenamientoController(serviceLocator);
+	public static LoginController loginController;
+	public static RetoController retoController;
+	public static EntrenamientoController entrenamientoController;
 	
 	
-	public static VentanaLogin vl = new VentanaLogin(loginController);
-	public static VentanaPrincipal vp = new VentanaPrincipal(loginController);
-	public static VentanaEntrenamiento ve = new VentanaEntrenamiento(entrenamientoController);
-	public static VentanaReto vret = new VentanaReto(retoController);
+	public static VentanaLogin vl;
+	public static VentanaPrincipal vp;
+	public static VentanaEntrenamiento ve;
+	public static VentanaReto vret;
 	
 	public static List<RetoDTO> retos;
 	
@@ -53,10 +53,11 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
 //	args[2] = Service Name
 	servicelocator.setService(args[0], args[1], args[2]);
 	
-	EntrenamientoController entrenamientoController = new EntrenamientoController(servicelocator);
+	entrenamientoController = new EntrenamientoController(servicelocator);
 	loginController = new LoginController(servicelocator);
-	RetoController retoController = new RetoController(servicelocator);
+	retoController = new RetoController(servicelocator);
 	vl = new VentanaLogin(loginController);
+	vp = new VentanaPrincipal(loginController);
 	vl.setVisible(true);
 	Calendar c = Calendar.getInstance();
     Calendar c2 = Calendar.getInstance();
@@ -71,17 +72,11 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
     
     deportes.add("Ciclismo");
     deportes.add("Running");
-	
-	RetoDTO reto = new RetoDTO();
-    reto.setNombre("Corre 40 kms");
-    reto.setFechaFin(date);
-    reto.setFechaInicio(date2);
-    reto.setObjetivo(40);
-    reto.setDeportes(deportes);
-    reto.setTipoDeReto("Distancia");
     
-    retoController.crearReto("Paja de hora y media", 5000, "Distancia", date2, date, deportes, token);
+    retoController.crearReto("Paja de hora y media", 5000, "Distancia", date2, date, deportes, 0001);
 	
-	
+    entrenamientoController.crearEntrenamiento("10 pajas en 10 minutos", "Ciclismo", 100, date2, date, 10, 0001);
+    ve = new VentanaEntrenamiento(entrenamientoController);
+
 	}
 }

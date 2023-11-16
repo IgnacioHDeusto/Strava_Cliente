@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -32,6 +33,7 @@ import javax.swing.table.TableCellRenderer;
 
 import com.toedter.calendar.JDateChooser;
 
+import cliente.main;
 import controller.EntrenamientoController;
 
 
@@ -52,6 +54,7 @@ public class VentanaEntrenamiento extends JFrame{
         setLocationRelativeTo(null);
 
         initTables();
+        loadDatos(entrenamientoController);
 
         crearEntrenamiento = new JButton("CREAR ENTRENAMIENTO");
 
@@ -101,6 +104,9 @@ public class VentanaEntrenamiento extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				
 				JTextField titulo = new JTextField(30);
+				JComboBox<String> deportesCombo = new JComboBox<String>();
+				deportesCombo.addItem("Ciclismo");
+				deportesCombo.addItem("Running");
 				JSpinner distancia = new JSpinner();
 				JDateChooser fecha_i = new JDateChooser();
 				JDateChooser fecha_f = new JDateChooser();
@@ -109,6 +115,8 @@ public class VentanaEntrenamiento extends JFrame{
 				JComponent[] inputs = new JComponent[] {
 						new JLabel("TITULO: "),
 						titulo,
+						new JLabel("DEPORTES: "),
+						deportesCombo,
 						new JLabel("DISTANCIA: "),
 						distancia,
 						new JLabel("FECHA INICIO: "),
@@ -130,6 +138,8 @@ public class VentanaEntrenamiento extends JFrame{
 					System.out.println(titulo.getText());
 					}
 					
+				entrenamientoController.crearEntrenamiento(titulo.getText(), deportesCombo.getSelectedItem().toString() ,Integer.parseInt(distancia.getValue().toString()) , fecha_i.getDate(), fecha_f.getDate(), Integer.parseInt(duracion.getValue().toString()), 0001);
+				loadDatos(entrenamientoController);
 				}
 			
 		});
@@ -240,6 +250,17 @@ public class VentanaEntrenamiento extends JFrame{
 	    entrenamiento.add(fechaFin);
 	    entrenamiento.add(duracion);
 	    this.modeloDatosEntrenamientos.addRow(entrenamiento);
+	}
+	
+	private void loadDatos(EntrenamientoController entrenamientoController) {
+		this.modeloDatosEntrenamientos.setRowCount(0);
+		try {
+			entrenamientoController.getEntrenamientos(0001).forEach(d->{
+				modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia(), d.getFechaInicio(), d.getFechaFin(), d.getDuracion()});
+			});
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		};
 	}
 
 

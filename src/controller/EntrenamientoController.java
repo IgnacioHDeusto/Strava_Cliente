@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
 
+import data.dto.EntrenamientoDTO;
 import remote.ServiceLocator;
 
 public class EntrenamientoController {
@@ -15,13 +16,26 @@ public class EntrenamientoController {
 			this.serviceLocator = serviceLocator; 
 		}
 		
-public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion, long token) {
+		public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion, long token) {
+			if(serviceLocator.getService() == null) {
+				System.out.println("iñaki maricon");
+			}
 			try {
 				this.serviceLocator.getService().crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion, token);
 			} catch (Exception e) {
-				 System.out.println("\t#Error: newEntrenamiento( " + titulo + ", " + deporte + ", "  + distancia + ", "  + fecha_ini + ", "  + fecha_fin + ", "  + duracion + ") ha fallado: " + e);
+				 System.out.println("\t#Error: crearEntrenamiento( " + titulo + ", " + deporte + ", "  + distancia + ", "  + fecha_ini + ", "  + fecha_fin + ", "  + duracion + ") ha fallado: " + e);
 			}
 		}
+		
+		public List<EntrenamientoDTO> getEntrenamientos(long token) throws RemoteException {
+            try {
+                return this.serviceLocator.getService().getEntrenamientos(token);
+            } catch (Exception e) {
+                System.out.println("# Error getting all entrenamientos: " + e);
+                return null;
+            }
+
+        }
 
 
 	

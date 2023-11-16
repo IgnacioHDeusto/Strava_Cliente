@@ -76,8 +76,8 @@ public class VentanaLogin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 UsuarioDTO usuario = new UsuarioDTO();
-
-                if (controller.login(correo.getText(), contrasena.getPassword().toString())) {
+                main.token = controller.login(correo.getText(), contrasena.getPassword().toString());
+                if (main.token != -1) {
                     usuario.setCorreo(correo.getText());
                     main.usuarioActivo = usuario;
                     main.vp.setVisible(true);
