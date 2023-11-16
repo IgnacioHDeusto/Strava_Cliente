@@ -23,6 +23,7 @@ import com.toedter.calendar.JDayChooser;
 
 import cliente.main;
 import controller.LoginController;
+import data.dto.UsuarioAssembler;
 import data.dto.UsuarioDTO;
 
 public class VentanaLogin extends JFrame{
@@ -52,7 +53,9 @@ public class VentanaLogin extends JFrame{
 				UsuarioDTO usuario = new UsuarioDTO();
 				
 				if(controller.login(correo.getText(), contrasena.getPassword().toString())) {
-					main.vp.setVisible(true);
+						usuario.setCorreo(correo.getText());
+						main.usuarioActivo = usuario;
+						main.vp.setVisible(true);
 				} 
 					
 				

@@ -46,7 +46,7 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
 	
 	public static void main(String[] args) throws RemoteException {
 	 ServiceLocator servicelocator = new ServiceLocator();
-	 vl.setVisible(true);
+	 
 	 
 //	args[0] = RMIRegistry IP
 //	args[1] = RMIRegistry Port
@@ -54,9 +54,10 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
 	servicelocator.setService(args[0], args[1], args[2]);
 	
 	EntrenamientoController entrenamientoController = new EntrenamientoController(servicelocator);
-	LoginController loginController = new LoginController(servicelocator);
+	loginController = new LoginController(servicelocator);
 	RetoController retoController = new RetoController(servicelocator);
-	
+	vl = new VentanaLogin(loginController);
+	vl.setVisible(true);
 	Calendar c = Calendar.getInstance();
     Calendar c2 = Calendar.getInstance();
     
