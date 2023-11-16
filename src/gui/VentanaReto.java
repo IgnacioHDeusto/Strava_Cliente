@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
@@ -16,10 +17,12 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -29,12 +32,9 @@ import com.toedter.calendar.JDateChooser;
 import controller.RetoController;
 
 
-
-
-
 public class VentanaReto extends JFrame{
 
-	private int mouseRowPersonajes = -1;
+	private int mouseRowRetos = -1;
 	private JTable tablaRetos;
 	private DefaultTableModel modeloDatosRetos;
 	private JScrollPane scrollPaneRetos;
@@ -42,8 +42,10 @@ public class VentanaReto extends JFrame{
 	private int filaRaton = -1;
 	
 	public VentanaReto(RetoController retoController) {
-		setSize(400,300);
-		setLocationRelativeTo(null);
+		setTitle("Retos");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 		
 		initRetos();
 		
@@ -54,8 +56,35 @@ public class VentanaReto extends JFrame{
         agregarRetoPrueba("Reto 3", "5 km");
         agregarRetoPrueba("Reto 4", " 30 minutos");
         agregarRetoPrueba("Reto 5", "15 km");
+        
+        scrollPaneRetos = new JScrollPane(tablaRetos);
+        scrollPaneRetos.setBorder(new TitledBorder("RETOS"));
 		
-        crearReto.addMouseListener(new MouseListener() {
+        JPanel panelBoton = new JPanel();
+        panelBoton.add(crearReto);
+
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(scrollPaneRetos, BorderLayout.CENTER);
+        getContentPane().add(panelBoton, BorderLayout.SOUTH);
+        
+        getContentPane().setBackground(Color.white);
+	   
+        getContentPane().setBackground(Color.white);
+
+        tablaRetos.setBackground(Color.white);
+        tablaRetos.setForeground(Color.black);
+	    tablaRetos.setFont(new Font("Arial", Font.PLAIN, 14));
+	    tablaRetos.setRowHeight(30);
+	    tablaRetos.getTableHeader().setBackground(new Color(255,128,0));
+	    tablaRetos.getTableHeader().setForeground(Color.black);
+	    tablaRetos.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+	    
+	    crearReto.setBackground(new Color(255,128,0));
+	    crearReto.setForeground(Color.white);
+	    crearReto.setFont(new Font("Arial", Font.BOLD, 16));
+	    crearReto.setPreferredSize(new Dimension(300, 40));
+	    
+	    crearReto.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -127,7 +156,7 @@ public class VentanaReto extends JFrame{
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				mouseRowPersonajes = -1;
+				mouseRowRetos = -1;
 				tablaRetos.repaint();
 			}
 			
@@ -163,7 +192,7 @@ public class VentanaReto extends JFrame{
 			
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				mouseRowPersonajes = tablaRetos.rowAtPoint(e.getPoint());
+				mouseRowRetos = tablaRetos.rowAtPoint(e.getPoint());
 				
 				tablaRetos.repaint();				
 			}
@@ -174,22 +203,6 @@ public class VentanaReto extends JFrame{
 				
 			}
 		});
-        
-   
-		
-		this.scrollPaneRetos = new JScrollPane(this.tablaRetos);
-		this.scrollPaneRetos.setBorder(new TitledBorder("RETOS"));	
-		
-		this.add(this.scrollPaneRetos);
-		
-		this.getContentPane().add(crearReto);
-		this.setLayout(new BorderLayout());
-	    this.add(this.scrollPaneRetos, BorderLayout.CENTER);
-	    this.add(crearReto, BorderLayout.SOUTH);
-	    // Establecer tamaño del botón
-	    crearReto.setPreferredSize(new Dimension(100, 100));
-
-	
 		
 	}
 	
@@ -201,32 +214,16 @@ public class VentanaReto extends JFrame{
 		
 		TableCellRenderer cellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
 			JLabel result = new JLabel(value.toString());
+			
+			result.setBackground(Color.white);
 						
-			//Si el valor es de tipo Editorial: se renderiza con la imagen centrada
-
-			
-
-			
-			//La filas pares e impares se renderizan de colores diferentes de la tabla de comics			
-			if (table.equals(tablaRetos) || mouseRowPersonajes == -1 ) {
-				if (row % 2 == 0) {
-					result.setBackground(new Color(250, 249, 249));
-				} else {
-					result.setBackground(new Color(190, 227, 219));
-				}
+			if (isSelected ||  row == mouseRowRetos) {
 				
-			if (isSelected ||  row == mouseRowPersonajes) {
-					
-					result.setBackground(new Color(200, 100, 50));	
-				}
+				result.setBackground(new Color(255,128,0));	
+			}
 			
-				
-				//Se usan los colores por defecto de la tabla para las celdas de la tabla de personajes
-			} 
-			
-			//Si la celda está seleccionada se renderiza con el color de selección por defecto
-			
-			
+			result.setFont(new Font("Arial", Font.PLAIN, 14));
+			result.setHorizontalAlignment(SwingConstants.CENTER);
 			
 			result.setOpaque(true);
 			
