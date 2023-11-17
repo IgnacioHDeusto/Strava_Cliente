@@ -17,6 +17,16 @@ public class RetoController {
 		this.serviceLocator = serviceLocator; 
 	}
 	
+	public List<RetoDTO> getRetos() throws RemoteException {
+		try {
+			return this.serviceLocator.getService().getRetos();
+		} catch (Exception e) {
+			System.out.println("# Error getting all retos: " + e);
+			return null;
+		}
+
+	}
+	
 	public List<RetoDTO> getRetos(long token) throws RemoteException {
 		try {
 			return this.serviceLocator.getService().getRetos(token);
@@ -64,8 +74,9 @@ public class RetoController {
 	}
 	
 	public void crearReto(String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<String> deportes, long token) throws RemoteException {
+		this.serviceLocator.getService().crearReto(nombre, objetivo, tipo, fecha_ini, fecha_fin, deportes, token);
 		try {
-			this.serviceLocator.getService().crearReto(nombre, objetivo, tipo, fecha_ini, fecha_fin, deportes, token);
+			
 		} catch (Exception e) {
 			System.out.println("\t#Error: crearReto( " + nombre + ", " + objetivo + ", "  + tipo + ", "  + fecha_ini + ", "  + fecha_fin + ", "  + deportes + ", " + token  + ") ha fallado: " + e);
 		}

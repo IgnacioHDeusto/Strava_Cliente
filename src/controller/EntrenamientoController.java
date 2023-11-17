@@ -16,12 +16,11 @@ public class EntrenamientoController {
 			this.serviceLocator = serviceLocator; 
 		}
 		
-		public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion, long token) {
-			if(serviceLocator.getService() == null) {
-				System.out.println("Entrenamiento creado");
-			}
+		public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion, long token) throws RemoteException {
+			
+			this.serviceLocator.getService().crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion, token);
 			try {
-				this.serviceLocator.getService().crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion, token);
+				
 			} catch (Exception e) {
 				 System.out.println("\t#Error: crearEntrenamiento( " + titulo + ", " + deporte + ", "  + distancia + ", "  + fecha_ini + ", "  + fecha_fin + ", "  + duracion + ") ha fallado: " + e);
 			}

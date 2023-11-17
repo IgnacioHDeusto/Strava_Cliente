@@ -8,16 +8,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
@@ -29,7 +34,10 @@ import javax.swing.table.TableCellRenderer;
 
 import com.toedter.calendar.JDateChooser;
 
+import cliente.main;
+import controller.EntrenamientoController;
 import controller.RetoController;
+import data.dto.RetoDTO;
 
 
 public class VentanaReto extends JFrame{
@@ -48,15 +56,10 @@ public class VentanaReto extends JFrame{
         setLocationRelativeTo(null);
 		
 		initRetos();
+		loadDatos(retoController);
 		
 		crearReto = new JButton("CREAR RETO");
-
-        agregarRetoPrueba("Reto 1", "10 km");
-        agregarRetoPrueba("Reto 2", "90 minutos");
-        agregarRetoPrueba("Reto 3", "5 km");
-        agregarRetoPrueba("Reto 4", " 30 minutos");
-        agregarRetoPrueba("Reto 5", "15 km");
-        
+		
         scrollPaneRetos = new JScrollPane(tablaRetos);
         scrollPaneRetos.setBorder(new TitledBorder("RETOS"));
 		
@@ -114,14 +117,33 @@ public class VentanaReto extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				
 				JTextField titulo = new JTextField(30);
-				JTextField objetivo = new JTextField(30);
+				JComboBox<String> tiposCombo = new JComboBox<String>();
+				tiposCombo.addItem("Distancia");
+				tiposCombo.addItem("Tiempo");
+				JSpinner objetivo = new JSpinner();
+				JDateChooser fecha_i = new JDateChooser();
+				JDateChooser fecha_f = new JDateChooser();
+				JRadioButton ciclismo = new JRadioButton("Ciclismo");
+				JRadioButton running = new JRadioButton("Running");
+			
+				List<String> deportes = new ArrayList<>();
 				
 				
 				JComponent[] inputs = new JComponent[] {
 						new JLabel("TITULO: "),
 						titulo,
-						new JLabel("DISTANCIA: "),
+						new JLabel("OBJETIVO: "),
 						objetivo,
+						new JLabel("TIPO DE RETO: "),
+						tiposCombo,
+						new JLabel("FECHA INICIO: "),
+						fecha_i,
+						new JLabel("FECHA FIN: "),
+						fecha_f,
+						new JLabel("DEPORTE(S): "),
+						ciclismo,
+						running
+						
 						
 						
 					};
@@ -132,10 +154,27 @@ public class VentanaReto extends JFrame{
 						JOptionPane.PLAIN_MESSAGE);
 				
 				if (result == JOptionPane.OK_OPTION) {
-					System.out.println(titulo);
 							
 					}
-					
+				try {
+					if (titulo.getText() != null && tiposCombo.getSelectedItem() != null) {
+						if (ciclismo.isSelected()) {
+							deportes.add("Ciclismo");
+						}
+						if (running.isSelected()) {
+							deportes.add("Running");
+						}
+						
+						retoController.crearReto(titulo.getText(), Integer.parseInt(objetivo.getValue().toString()), tiposCombo.getSelectedItem().toString()  , fecha_i.getDate(), fecha_f.getDate(), deportes, main.token);
+						loadDatos(retoController);
+					}
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				}
 			
 		});
@@ -235,12 +274,28 @@ public class VentanaReto extends JFrame{
 		this.tablaRetos.setDefaultRenderer(Object.class, cellRenderer);
 	}
 	
-    private void agregarRetoPrueba(String titulo, String objetivo) {
-        Vector<Object> reto = new Vector<Object>();
-        reto.add(titulo);
-        reto.add(objetivo);
-        this.modeloDatosRetos.addRow(reto);
-    }
-	
-    
+	private void loadDatos(RetoController retoController) {
+		this.modeloDatosRetos.setRowCount(0);
+		try {
+			List<RetoDTO> retos = retoController.getRetos(main.token);
+			List<String> nomR = new ArrayList<String>();
+			retos.forEach(r -> {
+				nomR.add(r.getNombre());
+			});
+			retoController.getRetos().forEach(r->{System.out.println(r.getNombre());
+				if (!nomR.contains(r.getNombre())) {
+					
+					if (r.getTipoDeReto().equals("Distancia")) {
+					modeloDatosRetos.addRow(new Object[] {r.getNombre(), r.getObjetivo() + " km"});
+					} else if (r.getTipoDeReto().equals("Tiempo")) {
+						modeloDatosRetos.addRow(new Object[] {r.getNombre(), r.getObjetivo() + " minutos"});
+					}
+				}
+				
+				
+			});
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		};
+	}
 }

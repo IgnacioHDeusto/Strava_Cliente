@@ -67,7 +67,8 @@ public class VentanaPrincipal extends JFrame{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				main.ve = new VentanaEntrenamiento(main.entrenamientoController);
+        		
 				main.ve.setVisible(true);	       
 
 				
@@ -78,6 +79,7 @@ public class VentanaPrincipal extends JFrame{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				main.vret = new VentanaReto(main.retoController);
 				main.vret.setVisible(true);
 				
 			}

@@ -19,6 +19,7 @@ public class LoginController {
 		public long login(String email, String password) {
 				try {
 					this.token = this.serviceLocator.getService().logIn(email, password);
+					
 					return token;
 				} catch (RemoteException e) {
 					System.out.println("# Error during login: " + e);

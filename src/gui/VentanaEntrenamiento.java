@@ -58,12 +58,6 @@ public class VentanaEntrenamiento extends JFrame{
 
         crearEntrenamiento = new JButton("CREAR ENTRENAMIENTO");
 
-        agregarEntrenamientoPrueba("Entrenamiento 1", "5 km", "2023-01-01", "2023-01-05", "1 hora");
-        agregarEntrenamientoPrueba("Entrenamiento 2", "10 km", "2023-02-01", "2023-02-10", "1.5 horas");
-        agregarEntrenamientoPrueba("Entrenamiento 3", "8 km", "2023-03-01", "2023-03-07", "1 hora");
-        agregarEntrenamientoPrueba("Entrenamiento 4", "15 km", "2023-04-01", "2023-04-15", "2 horas");
-        agregarEntrenamientoPrueba("Entrenamiento 5", "12 km", "2023-05-01", "2023-05-10", "1.5 horas");
-
         scrollPaneEntrenamientos = new JScrollPane(tablaEntrenamientos);
         scrollPaneEntrenamientos.setBorder(new TitledBorder("ENTRENAMIENTOS"));
 
@@ -135,11 +129,20 @@ public class VentanaEntrenamiento extends JFrame{
 				
 				if (result == JOptionPane.OK_OPTION) {
 					
-					System.out.println(titulo.getText());
 					}
 					
-				entrenamientoController.crearEntrenamiento(titulo.getText(), deportesCombo.getSelectedItem().toString() ,Integer.parseInt(distancia.getValue().toString()) , fecha_i.getDate(), fecha_f.getDate(), Integer.parseInt(duracion.getValue().toString()), 0001);
-				loadDatos(entrenamientoController);
+					try {
+						if (titulo.getText() != null && deportesCombo.getSelectedItem() != null) {
+							entrenamientoController.crearEntrenamiento(titulo.getText(), deportesCombo.getSelectedItem().toString() ,Integer.parseInt(distancia.getValue().toString()) , fecha_i.getDate(), fecha_f.getDate(), Integer.parseInt(duracion.getValue().toString()), main.token);
+							loadDatos(entrenamientoController);
+						}
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			
 		});
@@ -242,21 +245,11 @@ public class VentanaEntrenamiento extends JFrame{
 	
 }
 	
-	private void agregarEntrenamientoPrueba(String titulo, String distancia, String fechaInicio, String fechaFin, String duracion) {
-	    Vector<Object> entrenamiento = new Vector<Object>();
-	    entrenamiento.add(titulo);
-	    entrenamiento.add(distancia);
-	    entrenamiento.add(fechaInicio);
-	    entrenamiento.add(fechaFin);
-	    entrenamiento.add(duracion);
-	    this.modeloDatosEntrenamientos.addRow(entrenamiento);
-	}
-	
 	private void loadDatos(EntrenamientoController entrenamientoController) {
 		this.modeloDatosEntrenamientos.setRowCount(0);
 		try {
-			entrenamientoController.getEntrenamientos(0001).forEach(d->{
-				modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia(), d.getFechaInicio(), d.getFechaFin(), d.getDuracion()});
+			entrenamientoController.getEntrenamientos(main.token).forEach(d->{
+				modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
 			});
 		} catch (RemoteException e) {
 			e.printStackTrace();

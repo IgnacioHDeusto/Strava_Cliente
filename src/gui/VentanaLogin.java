@@ -9,8 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Date;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -80,7 +84,37 @@ public class VentanaLogin extends JFrame {
                 if (main.token != -1) {
                     usuario.setCorreo(correo.getText());
                     main.usuarioActivo = usuario;
-                    main.vp.setVisible(true);
+                    
+                    
+                    Calendar c = Calendar.getInstance();
+                    Calendar c2 = Calendar.getInstance();
+                    
+                    c.set(2023, 12, 9);
+                    c2.set(2023, 9, 1);
+                    
+                    Date date = c.getTime();
+                    Date date2 = c2.getTime();
+                    
+                    List<String> deportes = new ArrayList<>();
+                    
+                    deportes.add("Ciclismo");
+                    deportes.add("Running");
+                    try {
+						main.retoController.crearReto("Reto Prueba", 5000, "Distancia", date2, date, deportes, main.token);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+            		
+                	try {
+						main.entrenamientoController.crearEntrenamiento("Entrenamiento Prueba", "Ciclismo", 100, date2, date, 10, main.token);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+            		main.vp = new VentanaPrincipal(main.loginController);
+            		main.vp.setVisible(true);
+                    main.vl.setVisible(false);
                 }
             }
         });

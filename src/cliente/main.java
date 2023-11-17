@@ -2,7 +2,6 @@ package cliente;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,38 +44,31 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
 	public static Map<UsuarioDTO, Long> usuariosPorToken = new HashMap<>();
 	
 	public static void main(String[] args) throws RemoteException {
-	 ServiceLocator servicelocator = new ServiceLocator();
+	 ServiceLocator serviceLocator = new ServiceLocator();
 	 
 	 
 //	args[0] = RMIRegistry IP
 //	args[1] = RMIRegistry Port
 //	args[2] = Service Name
-	servicelocator.setService(args[0], args[1], args[2]);
+	serviceLocator.setService(args[0], args[1], args[2]);
 	
-	entrenamientoController = new EntrenamientoController(servicelocator);
-	loginController = new LoginController(servicelocator);
-	retoController = new RetoController(servicelocator);
-	vl = new VentanaLogin(loginController);
-	vp = new VentanaPrincipal(loginController);
-	vl.setVisible(true);
-	Calendar c = Calendar.getInstance();
-    Calendar c2 = Calendar.getInstance();
-    
-    c.set(2023, 12, 9);
-    c2.set(2023, 9, 1);
-    
-    Date date = c.getTime();
-    Date date2 = c2.getTime();
-    
+	entrenamientoController = new EntrenamientoController(serviceLocator);
+	loginController = new LoginController(serviceLocator);
+	retoController = new RetoController(serviceLocator);
+	
+    long token = loginController.login("A", "A");
     List<String> deportes = new ArrayList<>();
     
     deportes.add("Ciclismo");
     deportes.add("Running");
     
-    retoController.crearReto("Reto Prueba", 5000, "Distancia", date2, date, deportes, 0001);
+    retoController.crearReto("Reto de colegas", 50, "Tiempo", new Date(), new Date(), deportes, token);
+    retoController.crearReto("Reto de tiempo corrido", 20, "Tiempo", new Date(), new Date(), deportes, token);
+    
+    vl = new VentanaLogin(loginController);
+    vl.setVisible(true);
 	
-    entrenamientoController.crearEntrenamiento("Entrenamiento Prueba", "Ciclismo", 100, date2, date, 10, 0001);
-    ve = new VentanaEntrenamiento(entrenamientoController);
+    
 
 	}
 }
