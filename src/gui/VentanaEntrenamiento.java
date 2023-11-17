@@ -56,7 +56,6 @@ public class VentanaEntrenamiento extends JFrame{
 	public VentanaEntrenamiento (EntrenamientoController entrenamientoController) {
 		setTitle("Entrenamientos");
         setSize(900, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         initTables();

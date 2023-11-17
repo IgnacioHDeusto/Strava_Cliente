@@ -104,10 +104,10 @@ public class VentanaPrincipal extends JFrame{
 		logout.setForeground(Color.WHITE);
 		
 		scrollPaneRetos = new JScrollPane(tablaRetos);
-        scrollPaneRetos.setBorder(new TitledBorder("RETO"));
+//        scrollPaneRetos.setBorder(new TitledBorder("RETO"));
         
         scrollPaneEntrenamientos = new JScrollPane(tablaEntrenamientos);
-        scrollPaneEntrenamientos.setBorder(new TitledBorder("ENTRENAMIENTO"));
+//        scrollPaneEntrenamientos.setBorder(new TitledBorder("ENTRENAMIENTO"));
 		
         initTablas();
         loadDatos();

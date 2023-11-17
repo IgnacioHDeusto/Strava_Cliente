@@ -60,7 +60,6 @@ public class VentanaReto extends JFrame{
 	public VentanaReto(RetoController retoController) {
 		setTitle("Retos");
 		setSize(900, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 		
 		initRetos();
