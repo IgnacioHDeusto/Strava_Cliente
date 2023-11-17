@@ -1,11 +1,23 @@
 package cliente;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
+
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import controller.EntrenamientoController;
 import controller.LoginController;
@@ -62,8 +74,17 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
     deportes.add("Ciclismo");
     deportes.add("Running");
     
-    retoController.crearReto("Reto de colegas", 50, "Tiempo", new Date(), new Date(), deportes, token);
-    retoController.crearReto("Reto de tiempo corrido", 20, "Tiempo", new Date(), new Date(), deportes, token);
+    Calendar c = Calendar.getInstance();
+    Calendar c2 = Calendar.getInstance();
+    
+    c.set(2022, 12, 9);
+    c2.set(2024, 9, 1);
+    
+    Date date = c.getTime();
+    Date date2 = c2.getTime();
+    
+    retoController.crearReto("Reto de colegas", 50, "Tiempo", date, date2, deportes, token);
+    retoController.crearReto("Reto de tiempo corrido", 20, "Tiempo", date, date2, deportes, token);
     
     vl = new VentanaLogin(loginController);
     vl.setVisible(true);
@@ -71,4 +92,6 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
     
 
 	}
+	
+	
 }

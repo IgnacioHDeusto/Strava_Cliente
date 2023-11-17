@@ -3,8 +3,10 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -26,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -46,29 +49,74 @@ public class VentanaEntrenamiento extends JFrame{
 	private JScrollPane scrollPaneEntrenamientos;
 	private JButton crearEntrenamiento;
 	private int filaRaton = -1;
+	protected JButton reto;
+	protected JButton entrenamiento;
+	protected JButton inicio;
 
 	public VentanaEntrenamiento (EntrenamientoController entrenamientoController) {
 		setTitle("Entrenamientos");
-        setSize(600, 400);
+        setSize(900, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         initTables();
         loadDatos(entrenamientoController);
+        
+        Container cp = this.getContentPane();
+		
+		
+
+		inicio = new JButton("");
+		inicio.setIcon(new ImageIcon("resources/inicio.png"));
+		
+		reto = new JButton("");
+		reto.setIcon(new ImageIcon("resources/reto.png"));
+		
+		entrenamiento = new JButton("");
+		entrenamiento.setIcon(new ImageIcon("resources/EntrenamientoS.png"));
+		
+		cp.setBackground(new Color(255,255,255));
+		
+		inicio.setBackground(cp.getBackground());
+		reto.setBackground(cp.getBackground());
+		entrenamiento.setBackground(cp.getBackground());
+		
+		inicio.setBorder(null);
+		reto.setBorder(null);
+		entrenamiento.setBorder(null);
+		
+//		south.setLayout(new GridLayout(1,3));
+//
+//		south.add(inicio);
+//		south.add(reto);
+//		south.add(entrenamiento);
 
         crearEntrenamiento = new JButton("CREAR ENTRENAMIENTO");
 
         scrollPaneEntrenamientos = new JScrollPane(tablaEntrenamientos);
         scrollPaneEntrenamientos.setBorder(new TitledBorder("ENTRENAMIENTOS"));
 
+        
+        JPanel casa = new JPanel();
+        casa.setLayout(new GridLayout(2,1));
         JPanel panelBoton = new JPanel();
         panelBoton.add(crearEntrenamiento);
+        JPanel home = new JPanel();
+        home.setLayout(new GridLayout(1,3));
+        home.add(inicio);
+        home.add(reto);
+        home.add(entrenamiento);
+        
+        casa.add(crearEntrenamiento);
+        casa.add(home);
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(scrollPaneEntrenamientos, BorderLayout.CENTER);
         getContentPane().add(panelBoton, BorderLayout.SOUTH);
+        getContentPane().add(casa, BorderLayout.SOUTH);
+        
 
-		crearEntrenamiento.addMouseListener(new MouseListener() {
+		crearEntrenamiento.addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -101,10 +149,10 @@ public class VentanaEntrenamiento extends JFrame{
 				JComboBox<String> deportesCombo = new JComboBox<String>();
 				deportesCombo.addItem("Ciclismo");
 				deportesCombo.addItem("Running");
-				JSpinner distancia = new JSpinner();
+				JSpinner distancia = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 1));
 				JDateChooser fecha_i = new JDateChooser();
 				JDateChooser fecha_f = new JDateChooser();
-				JSpinner duracion = new JSpinner();
+				JSpinner duracion = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 1));
 				
 				JComponent[] inputs = new JComponent[] {
 						new JLabel("TITULO: "),
@@ -128,23 +176,47 @@ public class VentanaEntrenamiento extends JFrame{
 						JOptionPane.PLAIN_MESSAGE);
 				
 				if (result == JOptionPane.OK_OPTION) {
-					
-					}
-					
-					try {
-						if (titulo.getText() != null && deportesCombo.getSelectedItem() != null) {
-							entrenamientoController.crearEntrenamiento(titulo.getText(), deportesCombo.getSelectedItem().toString() ,Integer.parseInt(distancia.getValue().toString()) , fecha_i.getDate(), fecha_f.getDate(), Integer.parseInt(duracion.getValue().toString()), main.token);
-							loadDatos(entrenamientoController);
+						try {
+							if (titulo.getText() != "" && Integer.parseInt(duracion.getValue().toString()) != 0) {
+								entrenamientoController.crearEntrenamiento(titulo.getText(), deportesCombo.getSelectedItem().toString() ,Integer.parseInt(distancia.getValue().toString()) , fecha_i.getDate(), fecha_f.getDate(), Integer.parseInt(duracion.getValue().toString()), main.token);
+								loadDatos(entrenamientoController);
+							}
+						} catch (NumberFormatException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
-					} catch (NumberFormatException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (RemoteException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					}
+					
+					
 				}
 			
+		});
+		
+		reto.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				main.vret = new VentanaReto(main.retoController);
+				main.vret.setVisible(true);
+				
+				main.ve.setVisible(false);
+			}
+		});
+		
+		inicio.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				main.vp = new VentanaPrincipal(main.loginController);
+        		
+				main.vp.setVisible(true);	
+				main.ve.setVisible(false);
+
+				
+			}
 		});
 		
 		tablaEntrenamientos.addMouseListener(new MouseListener() {
@@ -231,7 +303,9 @@ public class VentanaEntrenamiento extends JFrame{
 				
 				result.setBackground(new Color(255,128,0));	
 			}
-
+			
+			
+			
 			result.setFont(new Font("Arial", Font.PLAIN, 14));
 			result.setHorizontalAlignment(SwingConstants.CENTER);
 			
@@ -240,7 +314,11 @@ public class VentanaEntrenamiento extends JFrame{
 			return result;
 		};
 		
-		this.tablaEntrenamientos = new JTable(this.modeloDatosEntrenamientos);
+		this.tablaEntrenamientos = new JTable(this.modeloDatosEntrenamientos) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		this.tablaEntrenamientos.setDefaultRenderer(Object.class, cellRenderer);
 	
 }

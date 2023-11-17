@@ -1,7 +1,11 @@
 package controller;
 
 import java.rmi.RemoteException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
+import data.dto.RetoDTO;
 import remote.ServiceLocator;
 
 
@@ -14,6 +18,25 @@ public class LoginController {
 
 		public LoginController(ServiceLocator serviceLocator) {
 			this.serviceLocator = serviceLocator;
+		}
+		
+		public void registro(String correo, String nombre, Date fecha_nacimiento, String contrasena) {
+			try {
+				this.serviceLocator.getService().registro(correo, nombre, fecha_nacimiento, contrasena);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public Map<String, String> getUsuarios() throws RemoteException {
+			try {
+				return this.serviceLocator.getService().getUsuarios();
+			} catch (Exception e) {
+				System.out.println("# Error getting all retos: " + e);
+				return null;
+			}
+
 		}
 		
 		public long login(String email, String password) {
