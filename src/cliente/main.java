@@ -73,9 +73,9 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
     deportes.add("Ciclismo");
     deportes.add("Running");
     
-    retoController.crearReto("Paja de hora y media", 5000, "Distancia", date2, date, deportes, 0001);
+    retoController.crearReto("Reto Prueba", 5000, "Distancia", date2, date, deportes, 0001);
 	
-    entrenamientoController.crearEntrenamiento("10 pajas en 10 minutos", "Ciclismo", 100, date2, date, 10, 0001);
+    entrenamientoController.crearEntrenamiento("Entrenamiento Prueba", "Ciclismo", 100, date2, date, 10, 0001);
     ve = new VentanaEntrenamiento(entrenamientoController);
 
 	}

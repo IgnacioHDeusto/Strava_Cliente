@@ -18,7 +18,7 @@ public class EntrenamientoController {
 		
 		public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion, long token) {
 			if(serviceLocator.getService() == null) {
-				System.out.println("iñaki maricon");
+				System.out.println("Entrenamiento creado");
 			}
 			try {
 				this.serviceLocator.getService().crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion, token);
