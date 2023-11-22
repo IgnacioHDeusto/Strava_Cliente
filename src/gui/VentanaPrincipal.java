@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -48,6 +49,8 @@ public class VentanaPrincipal extends JFrame{
 	protected JButton logout;
 	protected JLabel strava;
 	
+	private int mouseRowEntrenamiento = -1;
+	private int mouseRowReto = -1;
 	private JTable tablaRetos;
 	private DefaultTableModel modeloDatosRetos;
 	private JScrollPane scrollPaneRetos;
@@ -59,6 +62,8 @@ public class VentanaPrincipal extends JFrame{
 		setSize(900,700);
 		setLocationRelativeTo(null);
 		Container cp = this.getContentPane();
+		initTablas();
+	    loadDatos();
 		JPanel north = new JPanel();
 		JPanel south = new JPanel();
 		JPanel center = new JPanel();
@@ -85,7 +90,7 @@ public class VentanaPrincipal extends JFrame{
 		
 		cp.setBackground(new Color(255,255,255));
 		
-
+		inicio.setBackground(cp.getBackground());
 		reto.setBackground(cp.getBackground());
 		entrenamiento.setBackground(cp.getBackground());
 		
@@ -109,8 +114,7 @@ public class VentanaPrincipal extends JFrame{
         scrollPaneEntrenamientos = new JScrollPane(tablaEntrenamientos);
         scrollPaneEntrenamientos.setBorder(new TitledBorder("ENTRENAMIENTO"));
 		
-        initTablas();
-        loadDatos();
+       
         
 		south.setLayout(new GridLayout(1,3));
 		north.setLayout(new GridLayout(1,2));
@@ -134,6 +138,7 @@ public class VentanaPrincipal extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				main.ve = new VentanaEntrenamiento(main.entrenamientoController);
         		
+				main.vp.setVisible(false);
 				main.ve.setVisible(true);	       
 
 				
@@ -145,6 +150,8 @@ public class VentanaPrincipal extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				main.vret = new VentanaReto(main.retoController);
+				
+				main.vp.setVisible(false);
 				main.vret.setVisible(true);
 				
 			}
@@ -174,8 +181,61 @@ public class VentanaPrincipal extends JFrame{
 			
 		});
 		
+		tablaEntrenamientos.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				mouseRowEntrenamiento = -1;
+				tablaEntrenamientos.repaint();
+			}
+		});
+
+		tablaEntrenamientos.addMouseMotionListener(new MouseMotionAdapter() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				mouseRowEntrenamiento = tablaEntrenamientos.rowAtPoint(e.getPoint());
+				
+				tablaEntrenamientos.repaint();				
+			}
+			
+		});
 		
+		tablaEntrenamientos.setBackground(Color.white);
+        tablaEntrenamientos.setForeground(Color.black);
+        tablaEntrenamientos.setFont(new Font("Arial", Font.PLAIN, 14));
+		tablaEntrenamientos.setRowHeight(30);
+        tablaEntrenamientos.getTableHeader().setBackground(new Color(255,128,0));
+        tablaEntrenamientos.getTableHeader().setForeground(Color.black);
+        tablaEntrenamientos.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
 		
+		tablaRetos.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				mouseRowReto = -1;
+				tablaRetos.repaint();
+			}
+		});
+
+		tablaRetos.addMouseMotionListener(new MouseMotionAdapter() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				mouseRowReto = tablaRetos.rowAtPoint(e.getPoint());
+				
+				tablaRetos.repaint();				
+			}
+			
+		});
+		
+		tablaRetos.setBackground(Color.white);
+		tablaRetos.setForeground(Color.black);
+		tablaRetos.setFont(new Font("Arial", Font.PLAIN, 20));
+		tablaRetos.setRowHeight(50);
+		tablaRetos.getTableHeader().setBackground(new Color(255,128,0));
+		tablaRetos.getTableHeader().setForeground(Color.black);
+		tablaRetos.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
 	}
 	
 	public void initTablas() {
@@ -197,6 +257,10 @@ public class VentanaPrincipal extends JFrame{
 			result.setFont(new Font("Arial", Font.PLAIN, 14));
 			result.setHorizontalAlignment(SwingConstants.CENTER);
 			
+			if (isSelected ||  row == mouseRowEntrenamiento || row == mouseRowReto) {
+				result.setBackground(new Color(255,128,0));	
+			}
+			
 			result.setOpaque(true);
 
 			return result;
@@ -210,21 +274,23 @@ public class VentanaPrincipal extends JFrame{
 				return false;
 			}
 		};
-//		this.tablaRetos.setDefaultRenderer(Object.class, cellRenderer);
+		this.tablaRetos.setDefaultRenderer(Object.class, cellRenderer);
 		this.tablaEntrenamientos = new JTable(this.modeloDatosEntrenamientos) {
 			
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-//		this.tablaEntrenamientos.setDefaultRenderer(Object.class, cellRenderer);
+		this.tablaEntrenamientos.setDefaultRenderer(Object.class, cellRenderer);
 		
 		
 	}
 	private void loadDatos() {
+
 		this.modeloDatosRetos.setRowCount(0);
 		this.modeloDatosEntrenamientos.setRowCount(0);
-		try {
+		try {		
+			
 			List<RetoDTO> retos = main.retoController.getRetosActivos(main.token);
 			if (retos.get(0).getTipoDeReto().equals("Distancia")) {
 				modeloDatosRetos.addRow(new Object[] {retos.get(0).getNombre(), retos.get(0).getObjetivo() + " km"});

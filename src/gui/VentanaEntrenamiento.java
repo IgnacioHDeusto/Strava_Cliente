@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.rmi.RemoteException;
 import java.util.Arrays;
@@ -219,38 +220,16 @@ public class VentanaEntrenamiento extends JFrame{
 			}
 		});
 		
-		tablaEntrenamientos.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+		tablaEntrenamientos.addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				mouseRowEntrenamiento = -1;
 				tablaEntrenamientos.repaint();
 			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {			
-			}
 		});
 
-		tablaEntrenamientos.addMouseMotionListener(new MouseMotionListener() {
+		tablaEntrenamientos.addMouseMotionListener(new MouseMotionAdapter() {
 			
 			@Override
 			public void mouseMoved(MouseEvent e) {
@@ -259,11 +238,6 @@ public class VentanaEntrenamiento extends JFrame{
 				tablaEntrenamientos.repaint();				
 			}
 			
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
 		});
 		
 
