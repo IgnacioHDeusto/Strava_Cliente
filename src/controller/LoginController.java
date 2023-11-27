@@ -20,9 +20,9 @@ public class LoginController {
 			this.serviceLocator = serviceLocator;
 		}
 		
-		public void registro(String correo, String nombre, Date fecha_nacimiento, String contrasena) {
+		public void registro(String nombre, String correo, Date fecha_ncto, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) {
 			try {
-				this.serviceLocator.getService().registro(correo, nombre, fecha_nacimiento, contrasena);
+				this.serviceLocator.getService().registro(correo, nombre, fecha_ncto, peso, altura, frecuenciaCardMax, frecuenciaCardRep, contrasena);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -33,7 +33,7 @@ public class LoginController {
 			try {
 				return this.serviceLocator.getService().getUsuarios();
 			} catch (Exception e) {
-				System.out.println("# Error getting all retos: " + e);
+				System.out.println("# Error getting Usuarios: " + e);
 				return null;
 			}
 

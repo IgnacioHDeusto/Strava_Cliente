@@ -262,7 +262,7 @@ public class VentanaEntrenamiento extends JFrame{
 	}
 	
 	private void initTables() {
-		Vector<String> cabeceraEntrenamiento = new Vector<String>(Arrays.asList( "TITULO", "DITANCIA","FECHA INICIO","FECHA FIN", "DURACION"));
+		Vector<String> cabeceraEntrenamiento = new Vector<String>(Arrays.asList( "TITULO", "DEPORTE", "DISTANCIA","FECHA INICIO","FECHA FIN", "DURACION"));
 
 		this.modeloDatosEntrenamientos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraEntrenamiento);
 		this.tablaEntrenamientos = new JTable(this.modeloDatosEntrenamientos);
@@ -300,7 +300,7 @@ public class VentanaEntrenamiento extends JFrame{
 		this.modeloDatosEntrenamientos.setRowCount(0);
 		try {
 			entrenamientoController.getEntrenamientos(main.token).forEach(d->{
-				modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
+				modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDeporte(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
 			});
 		} catch (RemoteException e) {
 			e.printStackTrace();

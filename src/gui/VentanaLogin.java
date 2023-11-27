@@ -198,7 +198,7 @@ public class VentanaLogin extends JFrame {
 						if (Integer.parseInt(rep.getValue().toString()) != 0) {
 							
 						} else {
-							controller.registro(correo.getText(), nombre.getText(), fecha.getDate(), contrasena.getText());
+							controller.registro(correo.getText(), nombre.getText(), fecha.getDate(), Integer.parseInt(peso.getValue().toString()), Integer.parseInt(altura.getValue().toString()), Integer.parseInt(max.getValue().toString()), Integer.parseInt(rep.getValue().toString()), contrasena.getText());
 						}
 					}
 				}
