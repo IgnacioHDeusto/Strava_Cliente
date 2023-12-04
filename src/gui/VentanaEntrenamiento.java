@@ -303,17 +303,14 @@ public class VentanaEntrenamiento extends JFrame{
 	private void loadDatos(EntrenamientoController entrenamientoController) {
 		this.modeloDatosEntrenamientos.setRowCount(0);
 		try {
-<<<<<<< HEAD
 			if (entrenamientoController.getEntrenamientos(main.token) != null) {
 				entrenamientoController.getEntrenamientos(main.token).forEach(d->{
 					modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
 				});
 			}
-=======
 			entrenamientoController.getEntrenamientos(main.token).forEach(d->{
 				modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDeporte(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
 			});
->>>>>>> branch 'master' of https://github.com/IgnacioHDeusto/Strava_Cliente.git
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		};
