@@ -68,24 +68,8 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
 	loginController = new LoginController(serviceLocator);
 	retoController = new RetoController(serviceLocator);
 	
-    long token = loginController.login("A", "A");
-    List<String> deportes = new ArrayList<>();
-    
-    deportes.add("Ciclismo");
-    deportes.add("Running");
-    
-    Calendar c = Calendar.getInstance();
-    Calendar c2 = Calendar.getInstance();
-    
-    c.set(2022, 12, 9);
-    c2.set(2024, 9, 1);
-    
-    Date date = c.getTime();
-    Date date2 = c2.getTime();
-    
-    retoController.crearReto("Reto de colegas", 50, "Tiempo", date, date2, deportes, token);
-    retoController.crearReto("Reto de tiempo corrido", 20, "Tiempo", date, date2, deportes, token);
-    
+	loginController.registro("A", "A", new Date(), "Meta", 0, 0, 0, 0, "A");
+	
     vl = new VentanaLogin(loginController);
     vl.setVisible(true);
 	

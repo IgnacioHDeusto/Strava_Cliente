@@ -308,7 +308,10 @@ public class VentanaReto extends JFrame{
 		this.modeloDatosRetos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraReto);
 		
 		TableCellRenderer cellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
-			JLabel result = new JLabel(value.toString());
+			JLabel result = new JLabel();
+			if (value != null) {
+				result = new JLabel(value.toString());
+			}
 			
 			JProgressBar progreso = new JProgressBar();
 			
@@ -357,17 +360,8 @@ public class VentanaReto extends JFrame{
 		try {
 			List<RetoDTO> retos = retoController.getRetosActivos(main.token);
 			List<String> nomR = new ArrayList<String>();
-			retos.forEach(r -> nomR.add(r.getNombre()));
-			retoController.getRetos().forEach(r->{
-				if (!nomR.contains(r.getNombre())) {
-					
-					if (r.getTipoDeReto().equals("Distancia")) {
-					modeloDatosRetos.addRow(new Object[] {r.getNombre(), r.getObjetivo() + " km"});
-					} else if (r.getTipoDeReto().equals("Tiempo")) {
-						modeloDatosRetos.addRow(new Object[] {r.getNombre(), r.getObjetivo() + " minutos"});
-					}
-				}
-			});
+			if (retos != null) {
+				retos.forEach(r -> nomR.add(r.getNombre()));
 			
 			retoController.getRetos(main.token).forEach(r-> {
 				JProgressBar progreso = new JProgressBar();
@@ -393,6 +387,19 @@ public class VentanaReto extends JFrame{
 					modeloDatosRetosU.addRow(new Object[] {r.getNombre(), r.getObjetivo() + " minutos", progreso.getValue() + "%"});
 				}
 			});
+			}
+			if (retoController.getRetos() != null) {
+				retoController.getRetos().forEach(r->{
+					if (!nomR.contains(r.getNombre())) {
+						
+						if (r.getTipoDeReto().equals("Distancia")) {
+						modeloDatosRetos.addRow(new Object[] {r.getNombre(), r.getObjetivo() + " km"});
+						} else if (r.getTipoDeReto().equals("Tiempo")) {
+							modeloDatosRetos.addRow(new Object[] {r.getNombre(), r.getObjetivo() + " minutos"});
+						}
+					}
+				});
+			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		};

@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Calendar;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -105,46 +107,14 @@ public class VentanaLogin extends JFrame {
 				}
             	if (mapU.get(correo.getText()) != null) {
                 UsuarioDTO usuario = new UsuarioDTO();
-                main.token = controller.login(correo.getText(), contrasena.getPassword().toString());
+                
+                char[] passwordChars = contrasena.getPassword();
+                String password = new String(passwordChars);
+                main.token = controller.login(correo.getText(), password);
                 if (main.token != -1) {
                     usuario.setCorreo(correo.getText());
                     main.usuarioActivo = usuario;
                     
-                    
-                    Calendar c = Calendar.getInstance();
-                    Calendar c2 = Calendar.getInstance();
-                    
-                    c.set(2022, 12, 9);
-                    c2.set(2024, 9, 1);
-                    
-                    Date date3 = c.getTime();
-                    Date date4 = c2.getTime();
-                    
-                    c.set(2023, 12, 9);
-                    c2.set(2023, 9, 1);
-                    
-                    
-                    
-                    Date date = c.getTime();
-                    Date date2 = c2.getTime();
-                    
-                    List<String> deportes = new ArrayList<>();
-                    
-                    deportes.add("Ciclismo");
-                    deportes.add("Running");
-                    try {
-						main.retoController.crearReto("Reto Prueba", 5000, "Distancia", date3, date4, deportes, main.token);
-					} catch (RemoteException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-            		
-                	try {
-						main.entrenamientoController.crearEntrenamiento("Entrenamiento Prueba", "Ciclismo", 100, date2, date, 10, main.token);
-					} catch (RemoteException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 						main.vp = new VentanaPrincipal(main.loginController);
 						main.vp.setVisible(true);
 						main.vl.setVisible(false);
@@ -167,6 +137,25 @@ public class VentanaLogin extends JFrame {
 				JSpinner peso = new JSpinner(new SpinnerNumberModel(0, 0, 250, 1));
 				JSpinner max = new JSpinner(new SpinnerNumberModel(0, 0, 250, 1));
 				JSpinner rep = new JSpinner(new SpinnerNumberModel(0, 0, 250, 1));
+				JPanel reg = new JPanel();
+				reg.setLayout(new GridLayout(1,3));
+				
+				JComboBox<String> treg = new JComboBox<String>();
+				treg.addItem("Meta");
+				treg.addItem("Google");
+				reg.add(new JLabel());
+				reg.add(treg);
+				reg.add(new JLabel());
+				
+				treg.setRenderer((list, value, index, isSelected, cellHasFocus) -> {
+					
+					JLabel result3 = new JLabel();
+					
+					result3.setIcon(new ImageIcon(String.format("resources/%s.png", value)));
+					result3.setText("");
+					
+					return result3;
+				});
 				
 				JComponent[] inputs = new JComponent[] {
 						new JLabel("CORREO: "),
@@ -185,7 +174,8 @@ public class VentanaLogin extends JFrame {
 						max,
 						new JLabel("FRECUENCIA CARDIACA EN REPOSO (OPC): "),
 						rep,
-						
+						new JLabel("REGISTRARSE CON "),
+						reg
 					};
 				
 				int result = JOptionPane.showConfirmDialog(null, inputs, 
@@ -195,10 +185,11 @@ public class VentanaLogin extends JFrame {
 				
 				if (result == JOptionPane.OK_OPTION) {
 					if (correo.getText() != "" && nombre.getText() != "" && contrasena.getText() != "") {
-						if (Integer.parseInt(rep.getValue().toString()) != 0) {
-							
+						if (Integer.parseInt(rep.getValue().toString()) != 0 || Integer.parseInt(max.getValue().toString()) != 0
+								|| Integer.parseInt(altura.getValue().toString()) != 0 || Integer.parseInt(peso.getValue().toString()) != 0) {
+							controller.registro(nombre.getText(), correo.getText(), fecha.getDate(), treg.getSelectedItem().toString(), Integer.parseInt(altura.toString()), Integer.parseInt(peso.toString()), Integer.parseInt(max.toString()), Integer.parseInt(rep.toString()),  contrasena.getText());
 						} else {
-							controller.registro(correo.getText(), nombre.getText(), fecha.getDate(), contrasena.getText());
+							controller.registro(nombre.getText(), correo.getText(), fecha.getDate(),  treg.getSelectedItem().toString(), 0, 0, 0, 0,  contrasena.getText());
 						}
 					}
 				}

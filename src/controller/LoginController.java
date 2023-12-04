@@ -20,9 +20,9 @@ public class LoginController {
 			this.serviceLocator = serviceLocator;
 		}
 		
-		public void registro(String correo, String nombre, Date fecha_nacimiento, String contrasena) {
+		public void registro(String nombre, String correo, Date fecha_nacimiento, String tipoReg, Integer alt, Integer peso, Integer frecMax, Integer frecRep, String contrasena ) {
 			try {
-				this.serviceLocator.getService().registro(correo, nombre, fecha_nacimiento, contrasena);
+				this.serviceLocator.getService().registro(nombre, correo, fecha_nacimiento, tipoReg, alt, peso, frecMax, frecRep, contrasena);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

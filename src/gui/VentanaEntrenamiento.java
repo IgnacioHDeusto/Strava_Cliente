@@ -268,7 +268,11 @@ public class VentanaEntrenamiento extends JFrame{
 		this.tablaEntrenamientos = new JTable(this.modeloDatosEntrenamientos);
 		
 		TableCellRenderer cellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
-			JLabel result = new JLabel(value.toString());
+			JLabel result = new JLabel();
+			if (value != null) {
+				result = new JLabel(value.toString());
+			}
+			
 			
 			result.setBackground(Color.white);
 						
@@ -299,9 +303,11 @@ public class VentanaEntrenamiento extends JFrame{
 	private void loadDatos(EntrenamientoController entrenamientoController) {
 		this.modeloDatosEntrenamientos.setRowCount(0);
 		try {
-			entrenamientoController.getEntrenamientos(main.token).forEach(d->{
-				modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
-			});
+			if (entrenamientoController.getEntrenamientos(main.token) != null) {
+				entrenamientoController.getEntrenamientos(main.token).forEach(d->{
+					modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
+				});
+			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		};

@@ -167,6 +167,7 @@ public class VentanaPrincipal extends JFrame{
 				
 		
 				main.vp.setVisible(false);
+				main.vl.setVisible(true);
 				
 			}
 		});
@@ -249,7 +250,10 @@ public class VentanaPrincipal extends JFrame{
 		this.tablaRetos = new JTable(this.modeloDatosRetos);
 		
 		TableCellRenderer cellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
-			JLabel result = new JLabel(value.toString());
+			JLabel result = new JLabel();
+			if (value != null) {
+				result = new JLabel(value.toString());
+			}
 			
 			
 			result.setBackground(Color.white);
@@ -292,16 +296,21 @@ public class VentanaPrincipal extends JFrame{
 		try {		
 			
 			List<RetoDTO> retos = main.retoController.getRetosActivos(main.token);
-			if (retos.get(0).getTipoDeReto().equals("Distancia")) {
-				modeloDatosRetos.addRow(new Object[] {retos.get(0).getNombre(), retos.get(0).getObjetivo() + " km"});
-			} else if (retos.get(0).getTipoDeReto().equals("Tiempo")) {
-				modeloDatosRetos.addRow(new Object[] {retos.get(0).getNombre(), retos.get(0).getObjetivo() + " minutos"});
+			
+			if (retos != null) {
+				if (retos.get(0).getTipoDeReto().equals("Distancia")) {
+					modeloDatosRetos.addRow(new Object[] {retos.get(0).getNombre(), retos.get(0).getObjetivo() + " km"});
+				} else if (retos.get(0).getTipoDeReto().equals("Tiempo")) {
+					modeloDatosRetos.addRow(new Object[] {retos.get(0).getNombre(), retos.get(0).getObjetivo() + " minutos"});
+				}
 			}
 			
 			try {
-				main.entrenamientoController.getEntrenamientos(main.token).forEach(d->{
-					modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
-				});
+				if (main.entrenamientoController.getEntrenamientos(main.token) != null) {
+					main.entrenamientoController.getEntrenamientos(main.token).forEach(d->{
+						modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
+					});
+				}
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			};
