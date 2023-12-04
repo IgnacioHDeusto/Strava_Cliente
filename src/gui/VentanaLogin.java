@@ -80,7 +80,6 @@ public class VentanaLogin extends JFrame {
         contrasena1.setFont(new Font("Arial", Font.BOLD, 14));
         contrasena = new JPasswordField(20);
         contrasena.setFont(new Font("Arial", Font.PLAIN, 14));
-
         
         iniciarsesion = new JButton("Iniciar Sesion");
         iniciarsesion.setFont(new Font("Arial", Font.BOLD, 14));
@@ -193,15 +192,15 @@ public class VentanaLogin extends JFrame {
 						JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE);
 				
-				if (result == JOptionPane.OK_OPTION) {
-					if (correo.getText() != "" && nombre.getText() != "" && contrasena.getText() != "") {
-						if (Integer.parseInt(rep.getValue().toString()) != 0) {
-							
-						} else {
-							controller.registro(correo.getText(), nombre.getText(), fecha.getDate(), Integer.parseInt(peso.getValue().toString()), Integer.parseInt(altura.getValue().toString()), Integer.parseInt(max.getValue().toString()), Integer.parseInt(rep.getValue().toString()), contrasena.getText());
-						}
-					}
-				}
+//				if (result == JOptionPane.OK_OPTION) {
+//					if (correo.getText() != "" && nombre.getText() != "" && contrasena.getText() != "") {
+//						if (Integer.parseInt(rep.getValue().toString()) != 0) {
+//							
+//						} else {
+//							controller.registro(correo.getText(), nombre.getText(), fecha.getDate(), Integer.parseInt(peso.getValue().toString()), Integer.parseInt(altura.getValue().toString()), Integer.parseInt(max.getValue().toString()), Integer.parseInt(rep.getValue().toString()), contrasena.getText());
+//						}
+//					}
+//				}
 					
 				
 			}
