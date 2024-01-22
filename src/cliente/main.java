@@ -55,7 +55,7 @@ public static ServiceLocator serviceLocator = new ServiceLocator();
 	
 	public static Map<UsuarioDTO, Long> usuariosPorToken = new HashMap<>();
 	
-	public static void main(String[] args) throws RemoteException {
+	public static void main(String[] args) {
 	 ServiceLocator serviceLocator = new ServiceLocator();
 	 
 	 

@@ -308,9 +308,7 @@ public class VentanaEntrenamiento extends JFrame{
 					modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
 				});
 			}
-			entrenamientoController.getEntrenamientos(main.token).forEach(d->{
-				modeloDatosEntrenamientos.addRow(new Object[] {d.getTitulo(), d.getDeporte(), d.getDistancia() + " km", d.getFechaInicio(), d.getFechaFin(), d.getDuracion() + " minutos"});
-			});
+			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		};
